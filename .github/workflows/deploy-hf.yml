@@ -22,4 +22,4 @@ jobs:
 
         run: |
           git remote add hf https://thiagohersan:$HFTOKEN@huggingface.co/spaces/thiagohersan/predominant-color
-          git push hf main
+          git push -f hf main
