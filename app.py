@@ -28,7 +28,7 @@ with gr.Blocks() as demo:
       gr.Interface(
         dom_col,
         inputs=gr.Image(type="pil"),
-        outputs=[*all_outputs, gr.Image(type="pil")],
+        outputs=[*all_outputs, gr.Image(type="pil", label="img_out")],
         cache_examples=True,
         examples=[["./imgs/03.webp"], ["./imgs/11.jpg"]],
         allow_flagging="never",
