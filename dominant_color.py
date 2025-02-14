@@ -75,4 +75,4 @@ def get_dominant_colors(pimg, k=4, max_dim=256):
   npimg = PImage.new("RGB", rpimg.size)
   npimg.putdata(npxs)
 
-  return rgb_by_count[:k], rgb_by_hls_count, resize_PIL(npimg, 480)
+  return rgb_by_count, rgb_by_hls_count, resize_PIL(npimg, 480)
