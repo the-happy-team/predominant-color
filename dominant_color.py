@@ -4,6 +4,8 @@ import numpy as np
 
 from colorsys import hls_to_rgb, rgb_to_hls
 
+from PIL import Image as PImage
+
 # CRITERIA: MAX_ITER, EPSILON_ACCURACY
 # cv2.TERM_CRITERIA_MAX_ITER + cv2.TERM_CRITERIA_EPS
 
@@ -66,4 +68,11 @@ def get_dominant_colors(pimg, k=4, max_dim=256):
   # order the k hls values by count
   rgb_by_hls_count = sorted(rgb_by_hls, key=lambda x: rgb_by_count.index(x))
 
-  return rgb_by_count[:k], rgb_by_hls_count
+  npxs = []
+  for c in labels.reshape(-1):
+    npxs.append(tuple(centers[c]))
+
+  npimg = PImage.new("RGB", rpimg.size)
+  npimg.putdata(npxs)
+
+  return rgb_by_count[:k], rgb_by_hls_count, resize_PIL(npimg, 480)
