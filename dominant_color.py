@@ -55,6 +55,9 @@ def get_dominant_colors(pimg, k=4, max_dim=256):
   _, counts = np.unique(labels, return_counts=True)
   by_count = np.argsort(-counts)
 
+  rgb2count = {rgb255_to_hex_str(k):v for k,v in zip(centers, counts)}
+  rgb2pct = {rgb255_to_hex_str(k):v/(sum(counts)) for k,v in zip(centers, counts)}
+
   # all centers, ordered by count
   rgb_by_count = [tuple(centers[c]) for c in by_count]
 
@@ -68,6 +71,10 @@ def get_dominant_colors(pimg, k=4, max_dim=256):
   # order the k hls values by count
   rgb_by_hls_count = sorted(rgb_by_hls, key=lambda x: rgb_by_count.index(x))
 
+  # get hex values
+  rgb_by_count_hex = [rgb255_to_hex_str(c) for c in rgb_by_count]
+  rgb_by_hls_count_hex = [rgb255_to_hex_str(c) for c in rgb_by_hls_count]
+
   npxs = []
   for c in labels.reshape(-1):
     npxs.append(tuple(centers[c]))
@@ -75,4 +82,4 @@ def get_dominant_colors(pimg, k=4, max_dim=256):
   npimg = PImage.new("RGB", rpimg.size)
   npimg.putdata(npxs)
 
-  return rgb_by_count, rgb_by_hls_count, resize_PIL(npimg, 480)
+  return rgb_by_count_hex, rgb_by_hls_count_hex, rgb2pct, resize_PIL(npimg, 480)
