@@ -9,12 +9,13 @@ out_colors = [gr.ColorPicker(visible=False) for _ in range(NUM_OUTS)]
 out_pcts = [gr.Textbox(visible=False) for _ in range(NUM_OUTS)]
 
 def dom_col(img_in):
-  palette_cnt, palette_hls, color_pcts, img_out = get_dominant_colors(img_in, k=NUM_COLORS)
+  palette_cnt, palette_hls, palette_pcts, hex_pcts, img_out = get_dominant_colors(img_in, k=NUM_COLORS)
   palette_hex = palette_cnt + palette_hls
 
   def get_pct_md(cp):
-    return f"### {round(color_pcts.get(cp, 0)*100, 2)}%"
+    return f"### {round(palette_pcts.get(cp, 0)*100, 2)}%"
 
+  # TODO: use hex_pcts for something
   return [gr.ColorPicker(h) for h in palette_hex] + [gr.Textbox(get_pct_md(h)) for h in palette_hex] + [img_out]
 
 def get_color(cp):
