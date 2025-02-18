@@ -1,5 +1,7 @@
 import gradio as gr
 
+from os import listdir
+
 from dominant_color import get_dominant_colors
 
 NUM_CNT = 8
@@ -14,6 +16,10 @@ hls_pcts = [gr.Textbox(visible=False) for _ in range(NUM_HLS)]
 
 raw_colors = [gr.ColorPicker(visible=False) for _ in range(NUM_RAW)]
 raw_pcts = [gr.Textbox(visible=False) for _ in range(NUM_RAW)]
+
+my_examples = [
+  [f"./imgs/{fname}"] for fname in listdir("./imgs") if fname.endswith("jpg")
+]
 
 def dom_col(img_in):
   palette_cnt, palette_hls, palette_pcts, hex_pcts, img_out = get_dominant_colors(img_in, k=NUM_HLS)
@@ -54,7 +60,7 @@ with gr.Blocks() as demo:
                  *raw_colors, *raw_pcts,
                  gr.Image(type="pil", label="img_out")],
         cache_examples=True,
-        examples=[["./imgs/03.webp"], ["./imgs/11.jpg"]],
+        examples=my_examples,
         allow_flagging="never",
         fill_width=True
       )
